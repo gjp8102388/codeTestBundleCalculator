@@ -39,7 +39,9 @@ A successfully passing test(s) that demonstrates the following output: (The form
 ### Class Design:
 
 Bundle and BundleConfig are to set default data of bundles;
+
 BundleCalculator contains the main algorithm of the calculator;
+
 IOprocessor is to handle input and output.
 
 ### To run:
