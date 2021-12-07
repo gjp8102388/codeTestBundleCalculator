@@ -9,7 +9,7 @@ public class BundleCalculatorApp {
         HashMap<String, Bundle> bundleInfo = new HashMap<>();
         iOProcessor.initializeCalculator(bundleInfo);
         iOProcessor.processInput();
-        HashMap<String, Integer> userInput = iOProcessor.getUserInput();
+        HashMap<String, Integer> userInput = iOProcessor.getOrder().getOrderInfo();
         iOProcessor.processOutput(userInput, bundleInfo);
     }
 }

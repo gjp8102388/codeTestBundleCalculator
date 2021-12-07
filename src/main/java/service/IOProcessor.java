@@ -3,6 +3,7 @@ package service;
 import lombok.Getter;
 import model.Bundle;
 import model.BundleConfig;
+import model.Order;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -16,7 +17,7 @@ public class IOProcessor {
     private final String empty = " ";
     private final String dollarSign = " $";
     private final String times = " X ";
-    private final HashMap<String, Integer> userInput = new HashMap<>();
+    private final Order order = new Order();
     private HashMap<String, Bundle> bundleInfo;
 
     public HashMap<String, Bundle> initializeCalculator(HashMap<String, Bundle> bundleInfo) {
@@ -46,7 +47,7 @@ public class IOProcessor {
                     if (!bundleInfo.containsKey(inputLine[1])) {
                         throw new invalidInputFormatCode(inputLine[1]);
                     }
-                    userInput.put(inputLine[1], Integer.parseInt(inputLine[0]));
+                    order.orderInfo.put(inputLine[1], Integer.parseInt(inputLine[0]));
                     input = scanner.nextLine();
                 }
                 scanner.close();
