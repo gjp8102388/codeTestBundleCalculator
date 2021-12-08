@@ -1,26 +1,28 @@
 package service;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.stream.Collectors;
 
-public class BundleCalculator {
+public class BundleProcessor {
 
-    public HashMap<Integer, Integer> initBundleInfo(int[] bundle) {
-        HashMap<Integer, Integer> bundleInfo = new HashMap<>();
+    public Map<Integer, Integer> initBundleInfo(int[] bundle) {
+        Map<Integer, Integer> bundleInfo = new HashMap<>();
         for (int i : bundle) {
             bundleInfo.put(i, 0);
         }
         return bundleInfo;
     }
 
-    public void updateBundleBreakdown(HashMap<Integer, HashMap<Integer, Integer>> updateBundleBreakdown, int i, int j) {
-        HashMap<Integer, Integer> map = (HashMap<Integer, Integer>) updateBundleBreakdown.get(i - j).clone();
+    public void updateBundleBreakdown(Map<Integer, Map<Integer, Integer>> updateBundleBreakdown, int i, int j) {
+        Map<Integer, Integer> map = new HashMap<>();
+        map.putAll(updateBundleBreakdown.get(i - j));
         updateBundleBreakdown.put(i, map);
         updateBundleBreakdown.get(i).replace(j, updateBundleBreakdown.get(i).get(j) + 1);
     }
 
-    public HashMap<Integer, Integer> bundleBreakDown(int inputQuantity, int[] bundleInfo) {
-        HashMap<Integer, HashMap<Integer, Integer>> bundleBreakdown = new HashMap<>();
+    public Map<Integer, Integer> bundleBreakdown(int inputQuantity, int[] bundleInfo) {
+        Map<Integer, Map<Integer, Integer>> bundleBreakdown = new HashMap<>();
         bundleBreakdown.put(0, initBundleInfo(bundleInfo));
         for (int i = 1; i <= inputQuantity; i++) {
             int minNumOfBundles = Integer.MAX_VALUE;
@@ -49,23 +51,7 @@ public class BundleCalculator {
                     }
                 }
             }
-
         }
         return bundleBreakdown.get(inputQuantity);
-    }
-
-    public HashMap<Integer, HashMap<Integer, Double>> calculatePrice(HashMap<Integer, Integer> bundleBreakDown, HashMap<Integer, Double> bundlesWithPrice) {
-        HashMap<Integer, HashMap<Integer, Double>> price = new HashMap<>();
-        HashMap<Integer, Double> totalPrice = new HashMap<>();
-        totalPrice.put(0, 0.0);
-        bundlesWithPrice.forEach((bundle, bundlePrice) -> {
-            int numOfBundle = bundleBreakDown.get(bundle);
-            totalPrice.put(0, totalPrice.get(0) + bundlePrice * numOfBundle);
-        });
-        price.put(0, totalPrice);
-        bundlesWithPrice.forEach((bundle, bundlePrice) -> price.put(bundle, new HashMap<Integer, Double>() {{
-            put(bundleBreakDown.get(bundle), bundlePrice * bundleBreakDown.get(bundle));
-        }}));
-        return price;
     }
 }

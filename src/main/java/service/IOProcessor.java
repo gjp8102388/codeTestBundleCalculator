@@ -9,6 +9,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Scanner;
 
 @Getter
@@ -17,10 +18,10 @@ public class IOProcessor {
     private final String empty = " ";
     private final String dollarSign = " $";
     private final String times = " X ";
-    private final Order order = new Order();
-    private HashMap<String, Bundle> bundleInfo;
+    public Order order = new Order();
+    private Map<String, Bundle> bundleInfo = new HashMap<>();
 
-    public HashMap<String, Bundle> initializeCalculator(HashMap<String, Bundle> bundleInfo) {
+    public Map<String, Bundle> initializeCalculator(Map<String, Bundle> bundleInfo) {
         Bundle[] bundles = new BundleConfig().setBundleConfig();
         for (Bundle bundle : bundles) {
             bundleInfo.put(bundle.getFormatCode(), bundle);
@@ -33,7 +34,7 @@ public class IOProcessor {
         return bundleInfo;
     }
 
-    public void processInput() {
+    public void processInput(Order order) {
         Scanner scanner = new Scanner(System.in);
         while (scanner.hasNextLine()) {
             try {
@@ -55,22 +56,15 @@ public class IOProcessor {
             } catch (invalidInputFormat | invalidInputFormatCode e) {
                 logger.warn(e.getMessage());
             }
+
         }
     }
 
-    public void processOutput(HashMap<String, Integer> userInput, HashMap<String, Bundle> bundleInfo) {
-        HashMap<String, HashMap<Integer, HashMap<Integer, Double>>> output = new HashMap<>();
-        BundleCalculator bundleCalculator = new BundleCalculator();
-        userInput.forEach((formatCode, numOfItems) -> {
-            Bundle bundle = bundleInfo.get(formatCode);
-            HashMap<Integer, Integer> divideBundle = bundleCalculator.bundleBreakDown(numOfItems, bundle.getBundle());
-            HashMap<Integer, HashMap<Integer, Double>> price = bundleCalculator.calculatePrice(divideBundle, bundle.getBundleInfo());
-            output.put(bundle.getFormatCode(), price);
-        });
+    public void processOutput(Map<String, Map<Integer, Map<Integer, Double>>> orderOutput, Order order) {
         logger.info("-----------------------------------------------------------");
-        output.forEach((formatCode, price) -> {
+        orderOutput.forEach((formatCode, price) -> {
             double totalPrice = price.get(0).get(0);
-            int quantity = userInput.get(formatCode);
+            int quantity = order.orderInfo.get(formatCode);
             logger.info(quantity + empty + formatCode + dollarSign + totalPrice);
             price.forEach((bundleKey, bundle) -> bundle.forEach((quantityOfBundle, bundlePrice) -> {
                 if (quantityOfBundle != 0) {
@@ -80,6 +74,7 @@ public class IOProcessor {
         });
         logger.info("-----------------------------------------------------------");
     }
+
 }
 
 class invalidInputFormat extends Exception {
@@ -93,5 +88,3 @@ class invalidInputFormatCode extends Exception {
         super("The format code " + str + " does not exist, please only choose from VID, FLAC and IMG. " + "\n" + "Please try again.");
     }
 }
-
-
