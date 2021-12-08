@@ -18,7 +18,6 @@ public class IOProcessor {
     private final String empty = " ";
     private final String dollarSign = " $";
     private final String times = " X ";
-    public Order order = new Order();
     private Map<String, Bundle> bundleInfo = new HashMap<>();
 
     public Map<String, Bundle> initializeCalculator(Map<String, Bundle> bundleInfo) {
