@@ -1,11 +1,11 @@
 package model;
 
-import lombok.Getter;
+import lombok.Data;
 
 import java.util.Arrays;
 import java.util.HashMap;
 
-@Getter
+@Data
 public class Bundle {
     private final String formatCode;
     private final int[] bundle;

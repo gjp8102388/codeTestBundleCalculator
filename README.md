@@ -36,13 +36,7 @@ A successfully passing test(s) that demonstrates the following output: (The form
   2 x 5 $1800
   1 x 3 $570
 ```
-### Class Design:
 
-Bundle and BundleConfig are to set default data of bundles;
-
-BundleCalculator contains the main algorithm of the calculator;
-
-IOprocessor is to handle input and output.
 
 ### To run:
 

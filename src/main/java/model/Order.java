@@ -2,9 +2,18 @@ package model;
 
 import lombok.Data;
 
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 public class Order {
-    public HashMap<String, Integer> orderInfo = new HashMap<>();
+    private List<OrderItem> orderItemsList;
+
+    public Order() {
+        orderItemsList = new ArrayList<>();
+    }
+
+    public void addItemToOrder(OrderItem orderItems) {
+        orderItemsList.add(orderItems);
+    }
 }

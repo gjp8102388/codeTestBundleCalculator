@@ -1,19 +1,16 @@
-import model.Bundle;
 import model.Order;
-import service.IOProcessor;
-import service.OrderProcessor;
+import service.InputProcessor;
+import service.OrderFiller;
+import service.OutputProcessor;
 
-import java.util.HashMap;
-import java.util.Map;
 
 public class BundleCalculatorApp {
     public static void main(String[] args) {
-        IOProcessor ioProcessor = new IOProcessor();
-        OrderProcessor orderProcessor = new OrderProcessor();
-        Map<String, Bundle> bundleInfo = new HashMap<>();
-        Order order = new Order();
-        ioProcessor.initializeCalculator(bundleInfo);
-        ioProcessor.processInput(order);
-        ioProcessor.processOutput(orderProcessor.orderOutput(order, bundleInfo), order);
+        InputProcessor inputProcessor = new InputProcessor();
+        OutputProcessor outputProcessor = new OutputProcessor();
+        OrderFiller orderFiller = new OrderFiller();
+        Order order = inputProcessor.getOrderFromUserInput();
+        order = orderFiller.fillOrder(order);
+        outputProcessor.printOutput(order);
     }
 }
